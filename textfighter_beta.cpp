@@ -2,6 +2,7 @@
 #include <string>
 #include <ctime>
 #include <memory>
+#include <random>
 
 using namespace std::string_literals;
 
@@ -38,7 +39,9 @@ class Character{
             // Using the attributes of the Weapon object, we can get the object name and damge.
             std::cout << name << " attacks with " << weapon.name << "\n";
             int damage = weapon.damage;
-            if (rand() % 4 == 0) { 
+            auto rd {std::random_device{}};
+            auto mt = std::mt19937{rd()};
+            if (auto uniform = std::uniform_int_distribution<int>{1, 100}; uniform(mt) % 4 == 0) {
                 damage *= 2;
                 std::cout << "Critical hit!" << "\n";
             }
@@ -87,9 +90,6 @@ class Player : public Character{
 };
 
 int main() {
-    // Set a random seed so that it's different every time
-    srand(time(0));
-
     // Weapons
     Weapon sword("Sword", 25);
     Weapon club("Club", 15);
