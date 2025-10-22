@@ -1,8 +1,7 @@
 #include <iostream>
 #include <string>
-#include <ctime>
-#include <memory>
 #include <random>
+#include <utility>
 
 using namespace std::string_literals;
 
@@ -13,7 +12,7 @@ class Weapon{
         int damage;
 
         // Constructor that uses arguments
-        Weapon(const std::string& n, int dmg) : name(n), damage(dmg) {}
+        Weapon(std::string  n, const int dmg) : name(std::move(n)), damage(dmg) {}
 };
 
 class Character{
@@ -22,20 +21,20 @@ class Character{
         int max_health;
         int health;
         Weapon& weapon;
-    
+
     public:
-        Character(const std::string& n, int hp, Weapon& weap) : name(n), max_health(hp), health(hp), weapon(weap) {}
-        
+        Character(std::string  n, const int hp, Weapon& weap) : name(std::move(n)), max_health(hp), health(hp), weapon(weap) {}
+
         // Public methods to access private attributes
-        std::string get_name() const {
+        [[nodiscard]] std::string get_name() const {
             return name;
         }
 
-        int get_health() const {
+        [[nodiscard]] int get_health() const {
             return health;
         }
 
-        void attack(Character& target){
+        void attack(Character& target) const {
             // Using the attributes of the Weapon object, we can get the object name and damge.
             std::cout << name << " attacks with " << weapon.name << "\n";
             int damage = weapon.damage;
@@ -53,7 +52,7 @@ class Character{
 
 class Player : public Character{
     public:
-        Player(std::string n, int hp, Weapon& weap) : Character(n, hp, weap) {}
+        Player(const std::string &n, const int hp, Weapon& weap) : Character(n, hp, weap) {}
 
         void heal(){
             health += 30;
@@ -63,28 +62,32 @@ class Player : public Character{
             std::cout << name << " healed 30 HP!" << "\n";
         }
 
-        std::string choose_action(){
+        static int choose_action(){
             std::cout << "1. Attack" << "\n";
             std::cout << "2. Heal" << "\n";
             std::cout << "Choose your action: ";
 
-            std::string choice;
-            std::cin >> choice;
-            while (choice != "1" && choice != "2") {
-                std::cout << "Invalid choice! Please try again.";
-                std::cin >> choice;
+            int choice;
+            while (!(std::cin >> choice) || choice < 1 || choice > 2) {
+                std::cout << "Invalid input. Please enter 1 or 2: ";
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             }
-            std::cout << "\n";
-            
+
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
             return choice;
         }
 
         void player_turn(Character& target){
-            std::string action = choose_action();
-            if (action == "1"){
-                attack(target);
-            } else if (action == "2"){
-                heal();
+            int action = choose_action();
+            switch (action) {
+                case 1:
+                    attack(target);
+                    break;
+                case 2:
+                    heal();
+                    break;
             }
         }
 };
