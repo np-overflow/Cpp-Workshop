@@ -1,20 +1,18 @@
 #include <iostream>
 #include <string>
-#include <cstdlib> 
 #include <ctime>
+#include <memory>
 
+using namespace std::string_literals;
 
 class Weapon{
     public:
         // These attributes are public so they are accessible by Characters
-        std::string name; 
+        std::string name;
         int damage;
 
         // Constructor that uses arguments
-        Weapon(std::string n, int dmg){
-            name = n;
-            damage = dmg;
-        };
+        Weapon(const std::string& n, int dmg) : name(n), damage(dmg) {}
 };
 
 class Character{
@@ -22,15 +20,10 @@ class Character{
         std::string name;
         int max_health;
         int health;
-        Weapon* weapon;
+        Weapon& weapon;
     
     public:
-        Character(std::string n, int hp, Weapon* weap) {
-            name = n;
-            max_health = hp;
-            health = hp;
-            weapon = weap;
-        }
+        Character(const std::string& n, int hp, Weapon& weap) : name(n), max_health(hp), health(hp), weapon(weap) {}
         
         // Public methods to access private attributes
         std::string get_name() const {
@@ -42,10 +35,9 @@ class Character{
         }
 
         void attack(Character& target){
-            Weapon weap = *weapon;
             // Using the attributes of the Weapon object, we can get the object name and damge.
-            std::cout << name << " attacks with " << weap.name << "\n";
-            int damage = weap.damage;
+            std::cout << name << " attacks with " << weapon.name << "\n";
+            int damage = weapon.damage;
             if (rand() % 4 == 0) { 
                 damage *= 2;
                 std::cout << "Critical hit!" << "\n";
@@ -58,7 +50,7 @@ class Character{
 
 class Player : public Character{
     public:
-        Player(std::string n, int hp, Weapon* weap) : Character(n, hp, weap) {}
+        Player(std::string n, int hp, Weapon& weap) : Character(n, hp, weap) {}
 
         void heal(){
             health += 30;
@@ -103,10 +95,10 @@ int main() {
     Weapon club("Club", 15);
 
     // Enemies
-    Character orc("Orc", 100, &club);
+    Character orc("Orc", 100, club);
 
     // Player
-    Player player("Hero", 100, &sword);
+    Player player("Hero", 100, sword);
 
     // Battle loop
     while (true) {
