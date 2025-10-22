@@ -3,8 +3,6 @@
 #include <ctime>
 #include <memory>
 
-using namespace std::string_literals;
-
 class Weapon{
     public:
         // These attributes are public so they are accessible by Characters
