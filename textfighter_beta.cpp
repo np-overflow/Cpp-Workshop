@@ -10,12 +10,6 @@ class Weapon{
         std::string name; 
         int damage;
 
-        // Default constructor that uses no arguments
-        Weapon() {
-            name = "Fists";
-            damage = 5;
-        }
-
         // Constructor that uses arguments
         Weapon(std::string n, int dmg){
             name = n;
