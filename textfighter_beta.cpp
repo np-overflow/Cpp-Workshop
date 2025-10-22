@@ -4,8 +4,6 @@
 #include <random>
 #include <utility>
 
-using namespace std::string_literals;
-
 class Weapon{
     public:
         // These attributes are public so they are accessible by Characters
