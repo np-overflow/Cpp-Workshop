@@ -48,7 +48,7 @@ class Character{
 
 class Player : public Character{
     public:
-        Player(std::string n, int hp, Weapon& weap) : Character(n, hp, weap) {}
+        Player(const std::string& n, int hp, Weapon& weap) : Character(n, hp, weap) {}
 
         void heal(){
             health += 30;
