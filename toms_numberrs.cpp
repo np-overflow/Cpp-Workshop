@@ -1,44 +1,44 @@
 #include <iostream>
-using namespace std;
+#include <string>
 
 bool isOdd(int num) {
     return num % 2 != 0;
 }
 
-int sumOfDigits(int num) {
+int sumOfDigits(int num) { //sum the digits by taking the last digit every iteration and add to sum
     int sum = 0;
     while (num > 0) {
-        sum += num % 10;
-        num /= 10;
+        sum += num % 10; //get the last digit
+        num /= 10; //remove the last digit
     }
     return sum;
 }
 
-void printReaction(string word, int times) {
+void printReaction(const std::string word, int times) {
     for (int i = 0; i < times; i++) {
-        cout << word;
-        if (i < times - 1) {
-            cout << " ";
+        std::cout << word;
+        if (i < times - 1) { //print space every time after a word until it's the last word
+            std::cout << " "; 
         }
     }
-    cout << endl;
+    std::cout << std::endl;
 }
 
-bool tomHatesNumber(int num) {
+bool tomHatesNumber(int num) { //to check for 67 and 41
     switch (num) {
         case 67:
         case 41:
             return true;
         default:
-            return isOdd(num);
+            return isOdd(num); 
     }
 }
 
 int main() {
     int number;
     
-    cout << "Enter a number: ";
-    cin >> number;
+    std::cout << "Enter a number: ";
+    std::cin >> number;
     
     int digitSum = sumOfDigits(number);
     
@@ -49,4 +49,5 @@ int main() {
     }
     
     return 0;
+
 }
