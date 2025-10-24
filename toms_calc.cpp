@@ -1,11 +1,3 @@
-/******************************************************************************
-
-                              Online C++ Compiler.
-               Code, Compile, Run and Debug C++ program online.
-Write your code in this editor and press "Run" button to compile and execute it.
-
-*******************************************************************************/
-
 #include <iostream>
 
 void calcUI() {
@@ -17,7 +9,7 @@ void calcUI() {
 }
 
 int calcFuncs(int option, int num1, int num2) {
-    switch(option) {
+    switch(option) { //switch case for each option picked
         case 1:
             std::cout << "The sum of " << num1 << " and " << num2 << " is " << num1 + num2;
             break;
@@ -41,14 +33,14 @@ int main()
 	    calcUI();
 	    std::cout << "Enter the option you would like to choose: ";
 	    std::cin >> option;
-	    if (1 <= option && option <= 4){
+	    if (1 <= option && option <= 4){ // if option is more than or is 1 and less than or is 4
 	        int num1, num2;
 	        std::cout << "Enter the two numbers you want to use in your calculations with a space in between: ";
 	        std::cin >> num1 >> num2;
 	        calcFuncs(option, num1, num2);
 	        break;
 	    }
-	    else{
+	    else{ 
 	        std::cout << "Invalid option.\n";
 	    }
 	
